@@ -16,10 +16,10 @@ export const isColumnOfFour = (
 
         if (
         columnOfFour.every(
-            (square: number) => newBoard[square] === decidedColor && !isBlank
+            (candy: number) => newBoard[candy] === decidedColor && !isBlank
         )
         ) {
-            columnOfFour.forEach((square: number) => (newBoard[square] = ""));
+            columnOfFour.forEach((candy: number) => (newBoard[candy] = ""));
             return true;
         }
     }
@@ -29,7 +29,7 @@ export const checkForRowOfFour = (
     newBoard: String[],
     boardSize: number,
     invalidMovesForColumnOfFour: number[]
-  ) => {
+) => {
     for (let i = 0; i < boardSize * boardSize; i++) {
       const rowOfFour = [i, i + 1, i + 2, i + 3];
       const decidedColor = newBoard[i];
@@ -38,9 +38,9 @@ export const checkForRowOfFour = (
   
       if (invalidMovesForColumnOfFour.includes(i)) continue;
       if (
-        rowOfFour.every((square) => newBoard[square] === decidedColor && !isBlank)
+        rowOfFour.every((candy) => newBoard[candy] === decidedColor && !isBlank)
       ) {
-        rowOfFour.forEach((square) => (newBoard[square] = ""));
+        rowOfFour.forEach((candy) => (newBoard[candy] = ""));
         return true;
       }
     }

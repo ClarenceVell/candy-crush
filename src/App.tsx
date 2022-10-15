@@ -3,6 +3,8 @@ import Board from './components/Board';
 import { updateBoard } from './store';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { createBoard } from './utils/createBoard';
+import { formulasForColumnOfFour } from './utils/formulas';
+import { isColumnOfFour } from './utils/moveCheckLogic';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -16,6 +18,16 @@ function App() {
     dispatch(updateBoard(createBoard(boardSize)))
     // console.log(createBoard(boardSize))
   }, [boardSize, dispatch])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const newBoard = [...board]
+      isColumnOfFour(newBoard, boardSize, formulasForColumnOfFour(boardSize));
+      dispatch(updateBoard(newBoard))
+    }, 150)
+
+    return () => clearInterval(timeout)
+  })
   
 
   return (

@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import Board from './components/Board';
-import { updateBoard } from './store';
+import { dragEnd, moveBelow, updateBoard } from './store';
 import { useAppDispatch, useAppSelector } from './store/hooks';
 import { createBoard } from './utils/createBoard';
-import { formulasForColumnOfFour } from './utils/formulas';
-import { isColumnOfFour } from './utils/moveCheckLogic';
+import { formulasForColumnOfFour, formulasForColumnOfThree, generateInvalidMoves } from './utils/formulas';
+import { checkForRowOfFour, checkForRowOfThree, isColumnOfFour, isColumnOfThree } from './utils/moveCheckLogic';
 
 function App() {
   const dispatch = useAppDispatch()
@@ -23,11 +23,18 @@ function App() {
     const timeout = setTimeout(() => {
       const newBoard = [...board]
       isColumnOfFour(newBoard, boardSize, formulasForColumnOfFour(boardSize));
+      checkForRowOfFour(newBoard, boardSize, generateInvalidMoves(boardSize, true))
+
+      isColumnOfThree(newBoard, boardSize, formulasForColumnOfThree(boardSize));
+      checkForRowOfThree(newBoard, boardSize, generateInvalidMoves(boardSize))
+
       dispatch(updateBoard(newBoard))
+      // dispatch(dragEnd());
+      dispatch(moveBelow());
     }, 150)
 
     return () => clearInterval(timeout)
-  })
+  }, [board, boardSize, dispatch])
   
 
   return (
